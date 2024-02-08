@@ -4,9 +4,43 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ECM_system_for_PNG"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        mc:Ignorable="d" Height="450" Width="800" Foreground="{x:Null}" Background="White" Visibility="Visible" ShowInTaskbar="False" Icon="{DynamicResource EmptyImage}">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" MinWidth="135"/>
+            <ColumnDefinition Width="8*"/>
+        </Grid.ColumnDefinitions>
+
+        <UniformGrid>
+            <Border 
+                CornerRadius="20" 
+                HorizontalAlignment="Stretch" 
+                VerticalAlignment="Stretch"
+                Margin="20 0 20 20" 
+                Background="{StaticResource DarkBrush}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Image Source="/Vector.png" Grid.Row="0" Grid.Column="1"/>
+                </Grid>
+            </Border>
+        </UniformGrid>
+
+        <Frame Grid.Column="1"
+               Content="{Binding CurrentPage}"
+               NavigationUIVisibility="Hidden"
+               Opacity="{Binding FrameOpacity}">
+        </Frame>
     </Grid>
 </Window>

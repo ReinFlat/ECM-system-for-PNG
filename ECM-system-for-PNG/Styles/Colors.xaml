@@ -1,0 +1,24 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <SolidColorBrush x:Key="DAzureBaseBrush" Color="#0C3F72" />
+    <Color x:Key="DAzureBaseColor">#0C3F72</Color>
+
+    <SolidColorBrush x:Key="WhiteBaseBrush" Color="#FFFFFF" />
+    <Color x:Key="MediumBaseColor">#FFFFFF</Color>
+
+    <SolidColorBrush x:Key="DGBlueBaseBrush" Color="#2E3336" />
+    <Color x:Key="DGBlueBaseColor">#2E3336</Color>
+
+
+    <SolidColorBrush x:Key="MediumBrush" Color="#0C3F72" />
+    <Color x:Key="MediumColor">#0C3F72</Color>
+
+    <SolidColorBrush x:Key="LightBrush" Color="#FFFFFF" />
+    <Color x:Key="LightColor">#FFFFFF</Color>
+
+    <SolidColorBrush x:Key="DarkBrush" Color="#2E3336" />
+    <Color x:Key="DarkColor">2E3336</Color>
+
+</ResourceDictionary>
