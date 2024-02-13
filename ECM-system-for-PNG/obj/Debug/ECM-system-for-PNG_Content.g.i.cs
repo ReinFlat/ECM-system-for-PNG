@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("vector.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("pics/settings.svg")]
 
 

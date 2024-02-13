@@ -31,8 +31,34 @@
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="1*"/>
+                        <RowDefinition Height="0.5*"/>
                     </Grid.RowDefinitions>
-                    <Image Source="/Vector.png" Grid.Row="0" Grid.Column="1"/>
+                    <Image Source="Pics/Vector.png" Grid.Row="0" Grid.Column="1"/>
+                    <Button 
+                        Grid.Row="1" 
+                        Grid.Column="1" 
+                        Style="{StaticResource HomeButton}"
+                        Command="{Binding PageHome}"/>
+                    <Button 
+                        Grid.Row="2"
+                        Grid.Column="1" 
+                        Style="{StaticResource FolderButton}"
+                        Command="{Binding PageFolder}"/>
+                    <Button
+                        Grid.Row="3" 
+                        Grid.Column="1" 
+                        Style="{StaticResource DocumentButton}"
+                        Command="{Binding PageDocument}"/>
+                    <Button 
+                        Grid.Row="4" 
+                        Grid.Column="1" 
+                        Style="{StaticResource EmailButton}"
+                        Command="{Binding PageEmail}"/>
+                    <Button 
+                        Grid.Row="5" 
+                        Grid.Column="1" 
+                        Style="{StaticResource SettingsButton}"
+                        Command="{Binding PageSettings}"/>
                 </Grid>
             </Border>
         </UniformGrid>
