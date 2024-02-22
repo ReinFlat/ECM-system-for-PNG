@@ -11,7 +11,7 @@
             <ColumnDefinition Width="8*"/>
         </Grid.ColumnDefinitions>
 
-        <UniformGrid>
+        <UniformGrid Grid.Column="0">
             <Border 
                 CornerRadius="20" 
                 HorizontalAlignment="Stretch" 
@@ -38,35 +38,42 @@
                         Grid.Row="1" 
                         Grid.Column="1" 
                         Style="{StaticResource HomeButton}"
-                        Command="{Binding PageHome}"/>
+                        Command="{Binding PageHome}"
+                        IsEnabled="{Binding CurrentPage, Converter={StaticResource PageToEnabledConverter}, ConverterParameter=Home}"/>
                     <Button 
                         Grid.Row="2"
                         Grid.Column="1" 
                         Style="{StaticResource FolderButton}"
-                        Command="{Binding PageFolder}"/>
+                        Command="{Binding PageFolder}"
+                        IsEnabled="{Binding CurrentPage, Converter={StaticResource PageToEnabledConverter}, ConverterParameter=Folder}"/>
                     <Button
                         Grid.Row="3" 
                         Grid.Column="1" 
                         Style="{StaticResource DocumentButton}"
-                        Command="{Binding PageDocument}"/>
+                        Command="{Binding PageDocument}"
+                        IsEnabled="{Binding CurrentPage, Converter={StaticResource PageToEnabledConverter}, ConverterParameter=Document}"/>
                     <Button 
                         Grid.Row="4" 
                         Grid.Column="1" 
                         Style="{StaticResource EmailButton}"
-                        Command="{Binding PageEmail}"/>
+                        Command="{Binding PageEmail}"
+                        IsEnabled="{Binding CurrentPage, Converter={StaticResource PageToEnabledConverter}, ConverterParameter=Email}"/>
                     <Button 
                         Grid.Row="5" 
                         Grid.Column="1" 
                         Style="{StaticResource SettingsButton}"
-                        Command="{Binding PageSettings}"/>
+                        Command="{Binding PageSettings}"
+                        IsEnabled="{Binding CurrentPage, Converter={StaticResource PageToEnabledConverter}, ConverterParameter=Settings}"/>
                 </Grid>
             </Border>
         </UniformGrid>
 
-        <Frame Grid.Column="1"
-               Content="{Binding CurrentPage}"
-               NavigationUIVisibility="Hidden"
-               Opacity="{Binding FrameOpacity}">
+        <Frame 
+            Grid.Column="1"
+            Name="MainFrame"
+            NavigationUIVisibility="Hidden"  
+            Content="{Binding CurrentPage}">
+
         </Frame>
     </Grid>
 </Window>

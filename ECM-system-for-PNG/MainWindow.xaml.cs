@@ -23,6 +23,7 @@ namespace ECM_system_for_PNG
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new ViewModel.MainViewModel();
         }
     }
 }

@@ -13,7 +13,7 @@
         </Viewbox>
     </Grid>
 
-    <Grid x:Key="Home_checked">
+    <Grid x:Key="Home_checked" Margin="0 0 5 0">
         <Viewbox Stretch="Uniform">
             <Grid>
                 <Rectangle Fill="Transparent"/>
@@ -24,7 +24,7 @@
         </Viewbox>
     </Grid>
 
-    <Grid x:Key="Home_onHover">
+    <Grid x:Key="Home_onHover" Margin="0 0 5 0">
         <Viewbox Stretch="Uniform">
             <Grid>
                 <Rectangle Fill="Transparent"/>
@@ -59,7 +59,7 @@
         </Viewbox>
     </Grid>
 
-    <Grid x:Key="Folder_checked">
+    <Grid x:Key="Folder_checked" Margin="0 0 5 0">
         <Viewbox Stretch="Uniform">
             <Grid>
                 <Rectangle Fill="Transparent"/>
@@ -70,7 +70,7 @@
         </Viewbox>
     </Grid>
 
-    <Grid x:Key="Folder_onHover">
+    <Grid x:Key="Folder_onHover" Margin="0 0 5 0">
         <Viewbox Stretch="Uniform">
             <Grid>
                 <Rectangle Fill="Transparent"/>
@@ -105,7 +105,7 @@
         </Viewbox>
     </Grid>
 
-    <Grid x:Key="Document_checked">
+    <Grid x:Key="Document_checked" Margin="0 0 5 0">
         <Viewbox Stretch="Uniform">
             <Grid>
                 <Rectangle Fill="Transparent"/>
@@ -114,7 +114,7 @@
         </Viewbox>
     </Grid>
 
-    <Grid x:Key="Document_onHover">
+    <Grid x:Key="Document_onHover" Margin="0 0 5 0">
         <Viewbox Stretch="Uniform">
             <Grid>
                 <Rectangle Fill="Transparent"/>
@@ -144,7 +144,7 @@
         </Viewbox>
     </Grid>
 
-    <Grid x:Key="Email_checked">
+    <Grid x:Key="Email_checked" Margin="0 0 5 0">
         <Viewbox Stretch="Uniform">
             <Grid>
                 <Rectangle Fill="Transparent"/>
@@ -153,7 +153,7 @@
         </Viewbox>
     </Grid>
 
-    <Grid x:Key="Email_onHover">
+    <Grid x:Key="Email_onHover" Margin="0 0 5 0">
         <Viewbox Stretch="Uniform">
             <Grid>
                 <Rectangle Fill="Transparent"/>
@@ -181,7 +181,7 @@
         </Viewbox>
     </Grid>
 
-    <Grid x:Key="Settings_checked">
+    <Grid x:Key="Settings_checked" Margin="0 0 5 0">
         <Viewbox Stretch="Uniform">
             <Grid>
                 <Rectangle Fill="Transparent"/>
@@ -190,7 +190,7 @@
         </Viewbox>
     </Grid>
 
-    <Grid x:Key="Settings_onHover">
+    <Grid x:Key="Settings_onHover" Margin="0 0 5 0">
         <Viewbox Stretch="Uniform">
             <Grid>
                 <Rectangle Fill="Transparent"/>
