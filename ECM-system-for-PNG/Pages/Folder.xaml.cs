@@ -1,7 +1,9 @@
-﻿using Renci.SshNet;
+﻿using Microsoft.Win32;
+using Renci.SshNet;
 using Renci.SshNet.Sftp;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,68 +19,70 @@ using System.Windows.Shapes;
 
 namespace ECM_system_for_PNG.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для Folder.xaml
-    /// </summary>
     public partial class Folder : Page
     {
-        // A property to store the list of folders in the current path
         public List<string> PathItems { get; set; }
-
+        public string PathDisplay => string.Join("/", PathItems);
         public Folder()
         {
             InitializeComponent();
-            // Initialize the PathItems with the root folder
-            PathItems = new List<string>() { "/" };
-            // Set the data context of the window to this class
+            PathItems = new List<string>() { "/", "media", "sysadmin", "work" };
             this.DataContext = this;
-            // Load the files from the root folder
             LoadFiles();
+        }
+
+        private void searchBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                string searchTerm = searchBox.Text.ToLower();
+                var filteredFiles = (listBox.ItemsSource as List<FileItem>).Where(fileItem => fileItem.Name.ToLower().Contains(searchTerm)).ToList();
+
+                listBox.ItemsSource = filteredFiles;
+            }
+        }
+
+        public class FileItem
+        {
+            public string Name { get; set; }
+            public bool IsDirectory { get; set; }
         }
 
         private void LoadFiles()
         {
-            // SFTP server credentials
             string host = "80.91.18.120";
             int port = 535;
             string username = "sysadmin";
             string password = "v8nlbm!*_pv*";
 
-            // Remote folder to view files
-            // Get the remote folder from the PathItems list
             string remoteFolder = string.Join("/", PathItems);
 
-            // Create a sftp client and connect to the server
             using (SftpClient sftp = new SftpClient(host, port, username, password))
             {
                 try
                 {
                     sftp.Connect();
 
-                    // Get the list of files in the remote folder
                     var files = sftp.ListDirectory(remoteFolder);
 
-                    // Clear the listbox
-                    listBox.Items.Clear();
+                    var fileItems = files.Where(file => file.Name != "." && file.Name != "..")
+                        .Select(file => new FileItem
+                        {
+                            Name = file.Name,
+                            IsDirectory = file.IsDirectory
+                        }).ToList();
 
-                    // Add the file names to the listbox
-                    foreach (var file in files)
-                    {
-                        listBox.Items.Add(file.Name);
-                    }
+                    // Удалена строка listBox.Items.Clear();
+                    listBox.ItemsSource = fileItems;
 
                     sftp.Disconnect();
                 }
                 catch (Exception ex)
                 {
-                    // Show the error message
                     MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
 
-            // Enable or disable the back button depending on the current folder
-            // If the PathItems list has more than one element, it means we are not in the root folder
-            // and we can go back to the parent folder
             if (PathItems.Count > 1)
             {
                 buttonBack.IsEnabled = true;
@@ -87,64 +91,69 @@ namespace ECM_system_for_PNG.Pages
             {
                 buttonBack.IsEnabled = false;
             }
+
+            textBoxPath.Text = PathDisplay;
         }
 
         private void buttonBack_Click(object sender, RoutedEventArgs e)
         {
-            // Check if the PathItems list has more than one element
             if (PathItems.Count > 1)
             {
-                // Remove the last element from the PathItems list
                 PathItems.RemoveAt(PathItems.Count - 1);
-
-                // Load the files from the parent folder
                 LoadFiles();
             }
         }
 
         private void listBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            // SFTP server credentials
+            // Проверяем, что выбранный элемент является FileItem и это директория
+            if (listBox.SelectedItem is FileItem selectedItem && selectedItem.IsDirectory)
+            {
+                // Добавляем выбранный элемент к пути
+                PathItems.Add(selectedItem.Name);
+                // Обновляем содержимое ListBox с новым путем
+                LoadFiles();
+            }
+        }
+
+        private void DownloadFile_Click(object sender, RoutedEventArgs e)
+        {
             string host = "80.91.18.120";
             int port = 535;
             string username = "sysadmin";
             string password = "v8nlbm!*_pv*";
-
-            // Get the selected item from the listbox
-            string selectedItem = listBox.SelectedItem as string;
-
-            // Create a sftp client and connect to the server
-            using (SftpClient sftp = new SftpClient(host, port, username, password))
+            var button = sender as Button;
+            if (button != null)
             {
-                try
+                var fileItem = button.DataContext as FileItem;
+                if (fileItem != null && !fileItem.IsDirectory)
                 {
-                    sftp.Connect();
+                    SaveFileDialog saveFileDialog = new SaveFileDialog();
+                    saveFileDialog.FileName = fileItem.Name;
+                    saveFileDialog.DefaultExt = System.IO.Path.GetExtension(fileItem.Name);
+                    saveFileDialog.Filter = "All files (*.*)|*.*";
 
-                    // Get the current remote folder from the PathItems list
-                    string remoteFolder = string.Join("/", PathItems);
-
-                    // Get the full path of the selected item on the server
-                    string itemPath = remoteFolder + "/" + selectedItem;
-
-                    // Get the SftpFile object for the selected item
-                    SftpFile item = (SftpFile)sftp.Get(itemPath);
-
-                    // Check if the item is a directory
-                    if (item.IsDirectory)
+                    if (saveFileDialog.ShowDialog() == true)
                     {
-                        // Add the item name to the PathItems list
-                        PathItems.Add(selectedItem);
-
-                        // Load the files from the new folder
-                        LoadFiles();
+                        string localPath = saveFileDialog.FileName;
+                        string remotePath = string.Join("/", PathItems) + "/" + fileItem.Name; // Добавлен полный путь к файлу
+                        using (SftpClient sftp = new SftpClient(host, port, username, password))
+                        {
+                            try
+                            {
+                                sftp.Connect();
+                                using (var fileStream = File.Create(localPath))
+                                {
+                                    sftp.DownloadFile(remotePath, fileStream); // Используем полный путь
+                                }
+                                sftp.Disconnect();
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show(ex.Message, "Ошибка скачивания", MessageBoxButton.OK, MessageBoxImage.Error);
+                            }
+                        }
                     }
-
-                    sftp.Disconnect();
-                }
-                catch (Exception ex)
-                {
-                    // Show the error message
-                    MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
