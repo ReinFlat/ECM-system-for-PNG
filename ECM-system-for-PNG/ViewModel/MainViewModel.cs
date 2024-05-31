@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.Command;
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -27,43 +28,33 @@ namespace ECM_system_for_PNG.ViewModel
             }
         }
 
-        // Команды для навигации по страницам
-        public ICommand PageHome { get; }
-        public ICommand PageFolder { get; }
-        public ICommand PageDocument { get; }
-        public ICommand PageEmail { get; }
-        public ICommand PageSettings { get; }
+        // Страницы приложения
+        public Pages.Home PageHome { get; }
+        public Pages.Folder PageFolder { get; }
+        public Pages.Document PageDocument { get; }
+        public Pages.Email PageEmail { get; }
+        public Pages.Settings PageSettings { get; }
 
         // Конструктор класса
         public MainViewModel()
         {
-            // Инициализация команд
-            // Каждая команда принимает в качестве параметра имя страницы
-            // и устанавливает свойство CurrentPage в соответствующий объект
-            PageHome = new RelayCommand<string>(pageName =>
-            {
-                CurrentPage = new Pages.Home();
-                
-            });
-            PageFolder = new RelayCommand<string>(pageName =>
-            {
-                CurrentPage = new Pages.Folder();
-            });
-            PageDocument = new RelayCommand<string>(pageName =>
-            {
-                CurrentPage = new Pages.Document();
-            });
-            PageEmail = new RelayCommand<string>(pageName =>
-            {
-                CurrentPage = new Pages.Email();
-            });
-            PageSettings = new RelayCommand<string>(pageName =>
-            {
-                CurrentPage = new Pages.Settings();
-            });
+            // Инициализация страниц
+            PageHome = new Pages.Home();
+            PageFolder = new Pages.Folder();
+            PageDocument = new Pages.Document();
+            PageEmail = new Pages.Email();
+            PageSettings = new Pages.Settings();
 
             // Установка начальной страницы
-            CurrentPage = new Pages.Home();
+            CurrentPage = PageHome;
         }
+
+        // Команды для навигации по страницам
+        public ICommand NavigateToHome => new RelayCommand(() => CurrentPage = PageHome);
+        public ICommand NavigateToFolder => new RelayCommand(() => CurrentPage = PageFolder);
+        public ICommand NavigateToDocument => new RelayCommand(() => CurrentPage = PageDocument);
+        public ICommand NavigateToEmail => new RelayCommand(() => CurrentPage = PageEmail);
+        public ICommand NavigateToSettings => new RelayCommand(() => CurrentPage = PageSettings);
     }
+
 }
